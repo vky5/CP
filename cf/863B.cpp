@@ -1,5 +1,5 @@
 /* 
-link: https://cses.fi/problemset/task/1621
+link: https://codeforces.com/contest/863/problem/B
 date: 10-06-24 at 11 19 PM eariler two question was yesterday after 12
 desc: maths exam on 11 ;) We brute force and eliminate 2 kayakes (i, j) and then normally calculate the total error
 solved in: 13 min
