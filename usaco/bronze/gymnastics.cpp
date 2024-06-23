@@ -2,8 +2,8 @@
 link: https://usaco.org/index.php?page=viewproblem2&cpid=963
 date: 12-06-24 6 43 PM
 desc: 
-solved in: 
-number of attempts: 
+solved in: 2 min
+number of attempts: I have solved it so many times I don't even remember
 */
 
 
