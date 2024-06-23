@@ -1,1 +1,2 @@
-// we need to find the subsets of all the set 
+// write a code to generate all the subsets of a set
+
