@@ -6,61 +6,26 @@ solved in:
 number of attempts: 1
 */
 
-
-#include <iostream>
 #include <bits/stdc++.h>
 
 using namespace std;
+using ll = long long int;
 
-int sumOfVector(vector<int> tmp){
-    int ans =0;
-    for (auto x: tmp){
-        ans+=x;
+ll recursive_apples(ll index, ll sum1, ll sum2, ll target, vector<ll> ls){
+    if (index==target){ 
+        return abs (sum1 - sum2);
     }
 
-    return ans;
+    return min(recursive_apples(index+1, sum1+ls[index], sum2, target, ls), recursive_apples(index+1, sum1, sum2+ls[index], target, ls));
 }
-
-
-int minBet(vector<int> ls, int n, int i, int j){
-    vector<int> l1, l2;
-
-    l1.push_back(ls[i]); l2.push_back(ls[j]);
-
-    for (int x = 0; x<n;x++){
-        if (x!=i && x!=j){
-            if (sumOfVector(l1)>=sumOfVector(l2)){
-                l2.push_back(ls[x]);
-            }
-        }
-    }
-
-    return abs(sumOfVector(l1)-sumOfVector(l2));
-}
-
 
 int main(){
-    int n; cin>>n;
+    ll n; cin>>n;
+    vector<ll> ls(n);
 
-    vector<int> ls(n);
+    for (ll i = 0; i<n; i++) cin>>ls[i];
 
-    for (int i = 0; i<n; i++){
-        cin>>ls[i];
-    }
-
-    sort(ls.begin(), ls.end());
-
-    int ans = INT_MAX;
-    for (int i = 0; i<n; i++){
-        for (int j = 0;j<n; j++){
-            if (i!=j){
-                // cout<<minBet(ls, n, i, j)<<" "<<ls[i]<<" "<<ls[j]<<endl;
-                ans = min(ans, minBet(ls, n, i, j));
-            }
-        }
-    }
-
-    cout<<ans<<endl;
+    cout<<recursive_apples(0, 0, 0, n, ls)<<endl;
 
     return 0;
 }
