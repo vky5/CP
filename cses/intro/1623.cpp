@@ -11,21 +11,37 @@ number of attempts: 1
 using namespace std;
 using ll = long long int;
 
-ll recursive_apples(ll index, ll sum1, ll sum2, ll target, vector<ll> ls){
-    if (index==target){ 
-        return abs (sum1 - sum2);
+ll n; 
+vector<ll> ls;
+ll ans = INT_MAX;
+
+void divideIntoGrps(ll index, ll sum1, ll sum2){
+    if (index==n){
+        ans = min(ans, abs(sum1- sum2));
+        return;
     }
 
-    return min(recursive_apples(index+1, sum1+ls[index], sum2, target, ls), recursive_apples(index+1, sum1, sum2+ls[index], target, ls));
+    sum1+=ls[index];
+    divideIntoGrps(index+1, sum1, sum2);
+
+    sum1-=ls[index];
+    sum2+=ls[index];
+
+    divideIntoGrps(index+1, sum1, sum2);
+    sum2-=ls[index];
 }
 
 int main(){
-    ll n; cin>>n;
-    vector<ll> ls(n);
+    cin>>n; 
 
-    for (ll i = 0; i<n; i++) cin>>ls[i];
+    for (ll i = 0; i<n; i++){
+        ll tmp; cin>>tmp;
+        ls.push_back(tmp);
+    }
 
-    cout<<recursive_apples(0, 0, 0, n, ls)<<endl;
+    divideIntoGrps(0, 0, 0);
 
+    cout<<ans<<endl;
+    
     return 0;
 }
