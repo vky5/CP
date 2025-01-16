@@ -1,50 +1,56 @@
 #include <bits/stdc++.h>
+#include <map>
 #include <string>
 #include <vector>
 
 using namespace std;
 
-int main(){
-    int n; cin>>n;
-    map<string, int> years = {
-        {"Ox", 1},
-        {"Tiger", 2},
-        {"Rabbit", 3},
-        {"Dragon", 4},
-        {"Snake", 5},
-        {"Horse", 6},
-        {"Goat", 7},
-        {"Monkey", 8},
-        {"Rooster", 9},
-        {"Dog", 10},
-        {"Pig", 11},
-        {"Rat", 12}
-    };
+const vector<string> ZODIAC{"Ox",      "Tiger", "Rabbit", "Dragon",
+                            "Snake",   "Horse", "Goat",   "Monkey",
+                            "Rooster", "Dog",   "Pig",    "Rat"};
 
-    map<string, vector<string>> m;
-    for (int i = 0; i<n; i++){
-        string tmp[8];
-        
-        for (int j = 0; j<8; j++) cin>>tmp[j];
-        
-        m[tmp[0]] = {tmp[7], tmp[3], tmp[4]}; // storing {next cow, previous or next, year}
-    }
-    
-    string last_to_look = "Elsie";
-    int ans = 0;
-    
-    for (int i = 0; i<n; i++){
-        if (m[last_to_look][1]=="previous"){
-            ans-=(13 - years[m[last_to_look][2]]);
-        }else{
-            ans+=(years[m[last_to_look][2]]);
-        }
-        
-        last_to_look= m[last_to_look][0];
-        
-        if (last_to_look=="Bessie"){
-            cout<<abs(ans+1)<<endl;
-            return 0;
-        }
-    }
+struct Relation {
+  string name;
+  int dir; // direction -1 for previous +1 for next
+  int year;
+  string relative;
+};
+
+int main(){
+  int n;
+  cin >> n;
+  
+  vector<Relation> relations(n);
+  
+  for (int i = 0; i<n; i++){
+      string unused;
+      string dir_str;
+      string year;
+      
+      cin>>relations[i].name>>unused>>unused>>dir_str>>year>>unused>>unused>>relations[i].relative;
+      
+      relations[i].dir = (dir_str=="previous"?-1:1);
+      
+      relations[i].year = find(ZODIAC.begin(), ZODIAC.end(), year) - ZODIAC.begin();
+      // in C++ subtracting two iterators gives us the distance between them
+  }
+  
+  map<string, int> birthYears{{"Bessie", 0}};
+  
+  for (Relation r: relations){
+      int year = birthYears[r.relative] + r.dir; 
+      // so here we are assuming that the first relation will always be with bessie 
+      // no it is written that it will be either bessie or cow mentioned above. 
+      // here we make it 0 + 1 or 0 - 1 depending on direction
+       
+      
+      
+      // complete this question
+      // 
+      
+      
+      
+  }
+
+  return 0;
 }
