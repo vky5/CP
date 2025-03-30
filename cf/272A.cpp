@@ -1,5 +1,4 @@
-/*
-Problem Statement: https://codeforces.com/problemset/problem/69/A
+Problem Statement: https://codeforces.com/problemset/problem/272/A
 Date: 2025-02-15
 Started: 01:07PM
 Ended: 01:15PM
