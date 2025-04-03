@@ -1,55 +1,54 @@
-#include <algorithm>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-int main() {
-  int t;
-  cin >> t;
-  while (t--) {
-    int n, p;
-    cin >> n >> p;
-    vector<pair<int, int>> ls(n);
+int main(){
+  int t; cin>>t;
 
-    for (int i = 0; i < n; i++) {
-      cin >> ls[i].second; // max number of ppl that villager can share to 
-    }
+  while(t--){
+    int n,p; cin>>n>>p;
+    vector<int> max_res(n);
+    vector<pair<int, int>> costs;
 
-    for (int i = 0; i < n; i++) {
-      cin >> ls[i].first; // cost of sharing per villiger
-    }
 
-    sort(ls.begin(), ls.end(),
-         [](pair<int, int> &a, pair<int, int> &b) -> bool {
-           if (a.first < b.first) {
-             return true;
-           } else if (a.first == b.first) {
-             return a.second > b.second;
-           }
-
-           return false;
-         });
+    for (int i = 0; i<n; i++) cin>>max_res[i];
     
-    for (auto x: ls){
-        cout<<x.first<<" "<<x.second<<endl;
+    for (int i = 0; i<n; i++){
+      int tmp; cin>>tmp;
+      costs.push_back(make_pair(tmp, max_res[i]));
     }
 
-    int count = n;
-    int value = 0;
-    int prev = p;
-    int diff = 0;
+    sort(costs.rbegin(), costs.rend());
+    int total =  0;
+    int i = 0;
+    for (i = 0; i<n; i++){
+      
+      if (costs[i].first>p){
+        total+=p;
+      }else{
+        // here is gonna be the main logic... so first inform the villager with the least cost or hightest cost???
 
-    for (int i = 0; i<n && count;i++){
-        value+=p;
-        count--;
+        // we should inform the least cost that is gonna inform the escond least cost 
+        break;
         
+
+      }
     }
-    
-    value += count * p;
 
-    cout << value << endl;
+    cout<<total<<endl;
+
+    for (int j = n-1; j>i; j--){
+      if (j - i + 1>0){
+        total+=p;
+        total+= min((j - i + 1) * costs[j].first , costs[j].first * costs[j].second);
+        i += min(j - i + 1, costs[i].second);
+
+      }  
+    }
+
+    cout<<total<<endl;
+
   }
-
-  return 0;
 }
