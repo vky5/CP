@@ -1,54 +1,68 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <climits>
 
 using namespace std;
+using ll = long long int;
 
-int main(){
-  int t; cin>>t;
+int main()
+{
+  ll t;
+  cin >> t;
 
-  while(t--){
-    int n,p; cin>>n>>p;
-    vector<int> max_res(n);
-    vector<pair<int, int>> costs;
+  while (t--)
+  {
+    ll n, p;
+    cin >> n >> p;
+    vector<ll> max_res(n);
+    vector<pair<ll, ll>> costs;
 
+    for (ll i = 0; i < n; i++)
+      cin >> max_res[i];
 
-    for (int i = 0; i<n; i++) cin>>max_res[i];
-    
-    for (int i = 0; i<n; i++){
-      int tmp; cin>>tmp;
+    for (ll i = 0; i < n; i++)
+    {
+      ll tmp;
+      cin >> tmp;
       costs.push_back(make_pair(tmp, max_res[i]));
     }
+    sort(costs.begin(), costs.end(), [](pair<int, int> a, pair<int, int> b)
+         {
+      if (a.first!=b.first){
+        return a.first<b.first;
+      }
 
-    sort(costs.rbegin(), costs.rend());
-    int total =  0;
-    int i = 0;
-    for (i = 0; i<n; i++){
-      
-      if (costs[i].first>p){
-        total+=p;
-      }else{
-        // here is gonna be the main logic... so first inform the villager with the least cost or hightest cost???
+      return a.second>b.second; });
 
-        // we should inform the least cost that is gonna inform the escond least cost 
+    // idiot the villager once they get to know can inform to others
+    ll total = p; // because we need to inform the first villager
+
+    ll known_guy = 1;
+
+    for (ll i = 0; i < n; i++)
+    {
+
+      if (costs[i].first >= p)
+      { // if we have arrived where it is benificial for chief to tell the story then do this
         break;
-        
+      }
 
+      if (known_guy + costs[i].second > n) // once we informed everyone break
+      {
+        total += (n - known_guy) * costs[i].first; // here we are including everyone from n to costs[i] but not costs[i] becaues we have always assumed that it is either informed by village chief or other villagers
+        known_guy = n;
+        break;
+      }
+      else
+      {
+        total += costs[i].second * costs[i].first;
+        known_guy += costs[i].second;
       }
     }
 
-    cout<<total<<endl;
+    total+=(n - known_guy) * p;
 
-    for (int j = n-1; j>i; j--){
-      if (j - i + 1>0){
-        total+=p;
-        total+= min((j - i + 1) * costs[j].first , costs[j].first * costs[j].second);
-        i += min(j - i + 1, costs[i].second);
-
-      }  
-    }
-
-    cout<<total<<endl;
-
+    cout << total << endl;
   }
 }
