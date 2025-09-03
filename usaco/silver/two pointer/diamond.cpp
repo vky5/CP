@@ -41,7 +41,7 @@ int main(){
         }
     }
     
-    sort(ans.rbegin(), ans.rend());
+    sort(ans.rbegin(), a
     for (auto x: ans) cout<<x<<" "; cout<<endl;
     cout<<ans[0] + ans[1]<<endl;
     
